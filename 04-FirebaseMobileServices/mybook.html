@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moja ulubiona książka</title>
+  </head>
+
+  <body>
+    <div id="books"></div>
+
+    <script>
+      // Your web app's Firebase configuration
+		var firebaseConfig = {
+			apiKey: "AIzaSyDVP-UIkAqI5QkP3g2-WZfEtNVUJEESnQQ",
+			authDomain: "anybook-1f407.firebaseapp.com",
+			databaseURL: "https://anybook-1f407.firebaseio.com",
+			projectId: "anybook-1f407",
+			storageBucket: "anybook-1f407.appspot.com",
+			messagingSenderId: "733964564157",
+			appId: "1:733964564157:web:d11f28c9f38920515729d4",
+			measurementId: "G-0LKXDEKER7"
+		  };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var db = firebase.firestore();
+
+      var books = document.querySelector("#books");
+
+      function renderElements(doc) {
+        let name = doc.data().Autor;
+        let tytul = doc.data().Tytul;
+        let gatunek = doc.data().Gatunek;
+        let rok = doc.data().Rok;
+        let ISBN = doc.data().ISBN;
+
+        books.innerHTML +=
+          "Autor: " +
+          name +
+          "<br \> " +
+          "Title: " +
+          tytul +
+          "<br \>" +
+          "Genre: " +
+          gatunek +
+          "<br \> " +
+          "Year: " +
+          rok +
+          "<br \>" +
+          "ISBN : " +
+          ISBN +
+          "<br \> <br \>";
+      }
+
+      db.collection("books")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            renderElements(doc);
+          });
+        });
+    </script>
+  </body>
+</html>

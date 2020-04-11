@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.0/firebase-firestore.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Read</title>
+  </head>
+
+  <body>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <td>Autor</td>
+            <td>Tytul</td>
+            <td>Gatunek</td>
+            <td>Rok</td>
+            <td>ISBN</td>
+          </tr>
+        </thead>
+        <tbody id="table"></tbody>
+      </table>
+    </div>
+
+    <script>
+      // Your web app's Firebase configuration
+		var firebaseConfig = {
+			apiKey: "AIzaSyDVP-UIkAqI5QkP3g2-WZfEtNVUJEESnQQ",
+			authDomain: "anybook-1f407.firebaseapp.com",
+			databaseURL: "https://anybook-1f407.firebaseio.com",
+			projectId: "anybook-1f407",
+			storageBucket: "anybook-1f407.appspot.com",
+			messagingSenderId: "733964564157",
+			appId: "1:733964564157:web:d11f28c9f38920515729d4",
+			measurementId: "G-0LKXDEKER7"
+		  };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      var db = firebase.firestore();
+
+      var books = document.querySelector("#books");
+      const table = document.getElementById("table");
+
+      function renderElements(doc) {
+        let tr = `
+            <tr>
+                <td>${doc.data().Autor}</td>
+                <td>${doc.data().Tytul}</td>
+                <td>${doc.data().Gatunek}</td>
+                <td>${doc.data().Rok}</td>
+                <td>${doc.data().ISBN}</td>
+            </tr>
+        `;
+
+        table.innerHTML += tr;
+      }
+
+      db.collection("books")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            renderElements(doc);
+          });
+        });
+    </script>
+  </body>
+</html>
